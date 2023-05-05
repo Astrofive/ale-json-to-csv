@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALE JSON to CSV</title>
+    <style>
+		#error-container {
+			color: red;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+    <h1>ALE JSON to CSV</h1>
+    <h1>JSON Data Input</h1>
+	<textarea id="json-input" rows="10" cols="50"></textarea>
+	<br>
+	<button onclick="parseJSON()">Parse JSON</button>
+	<div id="error-container"></div>
+
+	<script>
+		function parseJSON() {
+            const jsonInput = document.getElementById("json-input").value;
+            try {
+                const jsonData = JSON.parse(jsonInput);
+                console.log(typeof jsonData);
+                // Do something with the parsed JSON data
+                document.getElementById("error-container").textContent = "";
+
+                const jsonArray = jsonData.Location_result;
+                convertJsonToCsvAndDownload(jsonArray, 'data.csv');
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById("error-container").textContent = "Invalid JSON data";
+            }
+        }
+
+        function convertJsonToCsvAndDownload(jsonData, filename) {
+            console.log(jsonData);
+            const csvData = [];
+            const headers = ["addr", "sta_location_x", "sta_location_y", "campus_id", "building_id"];
+
+            // Add headers to CSV
+            csvData.push(headers.join(','));
+
+            // Add data rows to CSV
+            if (Array.isArray(jsonData)) {
+                jsonData.forEach((data) => {
+                const values = headers.map(header => {
+                    const value = header === "addr" ? data.msg.sta_eth_mac.addr : data.msg[header];
+                    return typeof value === 'string' ? `"${value}"` : value;
+                });
+                csvData.push(values.join(','));
+                });
+            } else { console.log("(Array.isArray(jsonData)) is false")}
+
+            // Create CSV file and download
+            const csvContent = csvData.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+
+	</script>
+</body>
+</html>
