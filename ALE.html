@@ -39,14 +39,39 @@
             background-color: rgb(111, 111, 111);
             cursor: pointer;
         }
+
+        textarea {
+            background-color: #333;
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+            resize: none;
+        }
+
+        textarea::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        textarea::-webkit-scrollbar-track {
+            background-color: #222;
+        }
+
+        textarea::-webkit-scrollbar-thumb {
+            background-color: #555;
+            border-radius: 10px;
+        }
+        textarea::-webkit-scrollbar-corner {
+            background-color: #222;
+        }
+
 	</style>
 </head>
 <body>
     <h1>ALE JSON to CSV</h1>
-    <h3>JSON Data Input</h3>
+    <h3>Input ALE JSON data:</h3>
 	<textarea id="json-input" rows="10" cols="50"></textarea>
 	<br>
-	<button onclick="parseJSON()">Parse JSON</button>
+	<button onclick="parseJSON()">Parse & download CSV</button>
 	<div id="error-container"></div>
 
 	<script>
