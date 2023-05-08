@@ -105,7 +105,7 @@
         function convertJsonToCsvAndDownload(jsonData, filename) {
             console.log(jsonData);
             const csvData = [];
-            const headers = ["addr", "sta_location_x", "sta_location_y", "campus_id", "building_id"];
+            const headers = ["addr", "sta_location_x", "sta_location_y", "campus_id", "building_id","floor_id"];
 
             // Add headers to CSV
             csvData.push(headers.join(','));
