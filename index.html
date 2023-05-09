@@ -103,6 +103,7 @@
         }
 
         function convertJsonToCsvAndDownload(jsonData, filename) {
+            document.getElementById("error-container").textContent = "Parsing JSON...";
             console.log(jsonData);
             const csvData = [];
             const headers = ["addr", "sta_location_x", "sta_location_y", "campus_id", "building_id","floor_id"];
